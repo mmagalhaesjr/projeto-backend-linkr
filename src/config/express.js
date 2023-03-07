@@ -23,7 +23,7 @@ async function initializeServer() {
         app.use(signRoutes);
         app.use(AllRoutes);
 
-        server = app.listen(5000);
+        server = app.listen(process.env.PORT || 5000);
     }
 
     process.on("SIGTERM", async () => await onShutDownServer());
