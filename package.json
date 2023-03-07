@@ -1,0 +1,44 @@
+{
+  "name": "projeto-backend-linkr",
+  "version": "1.0.0",
+  "description": "A backend project to linkr social media project.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "start-dev": "nodemon ./src/app.js --inspect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PQPMath3ws/projeto-backend-linkr.git"
+  },
+  "keywords": [
+    "nodejs",
+    "node",
+    "javascript",
+    "js",
+    "express",
+    "expressjs",
+    "postgresql",
+    "postgre",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PQPMath3ws/projeto-backend-linkr/issues"
+  },
+  "homepage": "https://github.com/PQPMath3ws/projeto-backend-linkr#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "joi": "^17.8.3",
+    "jws": "^4.0.0",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
