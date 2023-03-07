@@ -151,6 +151,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: sessions id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT id_user FOREIGN KEY (id_user) REFERENCES public.users(id);
+
+
+--
 -- Name: sessions sessions_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
