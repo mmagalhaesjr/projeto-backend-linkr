@@ -15,3 +15,4 @@ export async function publishPost(req, res) {
         return res.status(500).send(error);
     }
 }
+
