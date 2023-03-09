@@ -11,3 +11,5 @@ signRoutes.post('/sign-up', postSignUpValidation, validateSchema(userSchema), po
 signRoutes.post('/sign-in', postSignInValidation, postSignIn);
 
 export default signRoutes
+
+

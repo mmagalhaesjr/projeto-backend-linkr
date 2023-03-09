@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 
 import AllRoutes from "../routes/AllRoutes.js";
+import postsRoutes from "../routes/PostRoutes.js";
 import signRoutes from "../routes/SignRoutes.js";
 
 const app = express();
@@ -19,9 +20,12 @@ async function initializeServer() {
     if (!server) {
         app.use(cors());
         app.use(express.json());
-
+        
+        app.use(postsRoutes);
         app.use(signRoutes);
         app.use(AllRoutes);
+        
+        
 
         server = app.listen(5000);
     }

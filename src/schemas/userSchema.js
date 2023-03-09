@@ -6,3 +6,4 @@ export const userSchema = joi.object({
     password: joi.string().min(6).max(30).required(),
     image: joi.string().not('').required()
 });
+
