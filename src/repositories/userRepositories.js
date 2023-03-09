@@ -15,3 +15,8 @@ export async function deleteToken(id){
 export async function createToken(id_user, token){
     return await db.query('INSERT INTO sessions (id_user, token) VALUES ($1, $2);', [id_user, token])
 }
+
+export async function  findUserByToken(token){
+    return await db.query(`SELECT id_user FROM sessions WHERE token = $1`, [token]);
+    
+}
