@@ -1,4 +1,4 @@
-import { findAuthToken } from "../repositories/Authentication";
+import { findAuthToken } from "../repositories/Authentication.js";
 
 async function isUserAuthenticated(req, res, next) {
     let { authorization } = req.headers;
