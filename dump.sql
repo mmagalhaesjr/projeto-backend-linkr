@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.posts (
     id integer NOT NULL,
     post text NOT NULL,
-    user_id integer NOT NULL,
+    url text NOT NULL,
+    id_user integer NOT NULL,
     "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp without time zone
 );
@@ -54,10 +55,10 @@ ALTER SEQUENCE public.posts_id_seq OWNED BY public.posts.id;
 
 
 --
--- Name: posts_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: posts_id_user_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.posts_user_id_seq
+CREATE SEQUENCE public.posts_id_user_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -67,10 +68,10 @@ CREATE SEQUENCE public.posts_user_id_seq
 
 
 --
--- Name: posts_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: posts_id_user_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.posts_user_id_seq OWNED BY public.posts.user_id;
+ALTER SEQUENCE public.posts_id_user_seq OWNED BY public.posts.id_user;
 
 
 --
@@ -103,6 +104,26 @@ CREATE SEQUENCE public.sessions_id_seq
 --
 
 ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
+-- Name: sessions_id_user_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.sessions_id_user_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sessions_id_user_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.sessions_id_user_seq OWNED BY public.sessions.id_user;
 
 
 --
@@ -147,10 +168,10 @@ ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.posts_
 
 
 --
--- Name: posts user_id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: posts id_user; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.posts ALTER COLUMN user_id SET DEFAULT nextval('public.posts_user_id_seq'::regclass);
+ALTER TABLE ONLY public.posts ALTER COLUMN id_user SET DEFAULT nextval('public.posts_id_user_seq'::regclass);
 
 
 --
@@ -158,6 +179,13 @@ ALTER TABLE ONLY public.posts ALTER COLUMN user_id SET DEFAULT nextval('public.p
 --
 
 ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: sessions id_user; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id_user SET DEFAULT nextval('public.sessions_id_user_seq'::regclass);
 
 
 --
@@ -193,24 +221,31 @@ SELECT pg_catalog.setval('public.posts_id_seq', 1, false);
 
 
 --
--- Name: posts_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: posts_id_user_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.posts_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.posts_id_user_seq', 1, false);
 
 
 --
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.sessions_id_seq', 8, true);
+
+
+--
+-- Name: sessions_id_user_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.sessions_id_user_seq', 1, false);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
@@ -219,14 +254,6 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 ALTER TABLE ONLY public.posts
     ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
-
-
---
--- Name: sessions sessions_id_user_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_id_user_key UNIQUE (id_user);
 
 
 --
@@ -254,19 +281,27 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: sessions id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: sessions id_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT id_user FOREIGN KEY (id_user) REFERENCES public.users(id);
+    ADD CONSTRAINT id_user_fk FOREIGN KEY (id_user) REFERENCES public.users(id);
 
 
 --
--- Name: posts posts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: posts id_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT posts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT id_user_fk FOREIGN KEY (id_user) REFERENCES public.users(id);
+
+
+--
+-- Name: posts posts_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_id_user_fkey FOREIGN KEY (id_user) REFERENCES public.users(id);
 
 
 --
@@ -275,14 +310,6 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_id_user_fkey FOREIGN KEY (id_user) REFERENCES public.users(id);
-
-
---
--- Name: posts user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --

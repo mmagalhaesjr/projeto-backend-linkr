@@ -16,6 +16,7 @@ export async function publishPost(req, res) {
     }
 }
 
+
 export async function likePost(req, res) {
     const user_id = res.locals.id_user
     const post_id = req.params.id
@@ -57,3 +58,4 @@ export async function getAllPosts(req, res){
     }
 
 }
+
