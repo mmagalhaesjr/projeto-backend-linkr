@@ -2,6 +2,8 @@ import cors from "cors";
 import express from "express";
 
 import AllRoutes from "../routes/AllRoutes.js";
+import CorsProxy from "../routes/CorsProxy.js";
+import PostsRoutes from "../routes/Posts.js";
 import SignRoutes from "../routes/SignRoutes.js";
 import UserRoutes from "../routes/Users.js";
 
@@ -21,6 +23,8 @@ async function initializeServer() {
         app.use(cors());
         app.use(express.json());
 
+        app.use(CorsProxy);
+        app.use(PostsRoutes)
         app.use(SignRoutes);
         app.use(UserRoutes);
         app.use(AllRoutes);
