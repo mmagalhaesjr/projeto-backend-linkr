@@ -1,7 +1,7 @@
 import { db } from "../config/database.js";
 
 export async function getAllPosts() {
-    return await db.query(`SELECT "id", "post", ISNULL("updatedAt", "createdAt") AS "post_date" FROM "posts";`);
+    return await db.query(`SELECT "id", "post", COALESCE("updatedAt", "createdAt") AS "post_date" FROM "posts";`);
 }
 
 export async function getUserAndUserPostsById(id_user) {
