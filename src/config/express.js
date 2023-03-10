@@ -4,8 +4,10 @@ import express from "express";
 import AllRoutes from "../routes/AllRoutes.js";
 import CorsProxy from "../routes/CorsProxy.js";
 import PostsRoutes from "../routes/Posts.js";
+import HashtagRouter from "../routes/HashtagRoutes.js";
 import SignRoutes from "../routes/SignRoutes.js";
 import UserRoutes from "../routes/Users.js";
+
 
 const app = express();
 let server = null;
@@ -27,7 +29,10 @@ async function initializeServer() {
         app.use(PostsRoutes)
         app.use(SignRoutes);
         app.use(UserRoutes);
+        app.use(HashtagRouter);
         app.use(AllRoutes);
+        
+        
 
         server = app.listen(process.env.PORT || 5000);
     }
