@@ -1,5 +1,5 @@
 import { getUserAndUserPostsById } from "../repositories/Posts.js";
-import { getUsersByUsername, getUserSession, getUserInfo } from "../repositories/Users.js";
+import { getUsersByUsername, getUserInfo } from "../repositories/Users.js";
 
 async function getUserAndUserPosts(req, res) {
     try {
@@ -26,12 +26,11 @@ async function searchUsersByUsername() {
 async function getUserMe(req, res) {
     try {
         const id = res.locals.id_user;
-        console.log(id)
+        
         const myInfo = await getUserInfo(id)
-        console.log(myInfo.rows[0])
+        
         return res.status(200).send(myInfo.rows[0]);
-    } catch (err) {
-        console.log(err)
+    } catch (_) {
         return res.status(500).send("internal server error.");
     }
 }
