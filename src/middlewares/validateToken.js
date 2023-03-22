@@ -15,7 +15,7 @@ export async function validateToken(req, res, next) {
     if (!session.rows[0]) return res.sendStatus(401)
     
     res.locals.id_user = session.rows[0].id_user
-    
+    console.log('passou pelo validate token e esse é o id do user', session.rows[0].id_user)
     next();
 
 
