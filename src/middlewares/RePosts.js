@@ -1,11 +1,15 @@
-import { isReposted } from "../repositories/RePostRepositories.js";
-import { findUserByToken } from "../repositories/userRepositories.js";
+import { isReposted, postExist } from "../repositories/RePostRepositories.js";
 
 export async function alreadyReposted(req, res, next) {
     const idUser = res.locals.id_user
-    const { id } = req.body; //id do post
+    const { id } = req.body; 
     try {
-        
+        if(!id) return res.status(404).send('The requested resource was not found')
+        if(typeof(id) !== 'number') return res.status(400).send('Invalid input: Please provide a valid number')
+
+        const postExists = await postExist(id);
+        if(!postExists.rows[0]) return res.status(404).send('The requested resource was not found')
+
         const reposted = await isReposted(id)
 
         let thisUserReposted;
