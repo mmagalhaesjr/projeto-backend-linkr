@@ -12,7 +12,7 @@ async function getUserById(req, res) {
     }
 }
 
-async function searchUsersByUsername() {
+async function searchUsersByUsername(req, res) {
     try {
         const { username } = req.body;
         if (!username || typeof username !== "string") return res.status(401).send("invalid username format");
