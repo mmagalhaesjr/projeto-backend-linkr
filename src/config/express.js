@@ -7,8 +7,8 @@ import CorsProxy from "../routes/CorsProxy.js";
 import HashtagRouter from "../routes/HashtagRoutes.js";
 import SignRoutes from "../routes/SignRoutes.js";
 import UserRoutes from "../routes/Users.js";
-import postsRoutes from '../routes/PostRoutes.js';
 import RePostsRoutes from "../routes/RePosts.js";
+import PostsRoutes from "../routes/PostRoutes.js";
 
 
 const app = express();
@@ -28,7 +28,7 @@ async function initializeServer() {
         app.use(express.json());
 
         app.use(CorsProxy);
-        app.use(postsRoutes)
+        app.use(PostsRoutes)
         app.use(RePostsRoutes)
         app.use(SignRoutes);
         app.use(UserRoutes);

@@ -6,3 +6,6 @@ export const postSchema = joi.object({
     
 });
 
+export const commentSchema = joi.object({
+    comment: joi.string().required()
+});
