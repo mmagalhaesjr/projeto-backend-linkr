@@ -8,6 +8,7 @@ import HashtagRouter from "../routes/HashtagRoutes.js";
 import SignRoutes from "../routes/SignRoutes.js";
 import UserRoutes from "../routes/Users.js";
 import postsRoutes from '../routes/PostRoutes.js';
+import RePostsRoutes from "../routes/RePosts.js";
 
 
 const app = express();
@@ -28,6 +29,7 @@ async function initializeServer() {
 
         app.use(CorsProxy);
         app.use(postsRoutes)
+        app.use(RePostsRoutes)
         app.use(SignRoutes);
         app.use(UserRoutes);
         app.use(HashtagRouter);
