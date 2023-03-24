@@ -16,7 +16,7 @@ export async function deleteLikePost(id_user, id_post) {
 }
 
 export async function getPosts() {
-    return await db.query(`SELECT posts.id, posts.post, posts.url AS "post_url", COALESCE(posts."updatedAt", posts."createdAt") AS "post_date", users.id as post_user_id, users.username, users.image AS "user_image", coalesce(likes.likes_count, 0) as likes, like_info.id_liked, like_info.names_liked, coalesce("comments".comments_count, 0) as comments_count, "comments".allcomments 
+    return await db.query(`SELECT posts.id, posts.post, posts.url AS "post_url", COALESCE(posts."updatedAt", posts."createdAt") AS "post_date", users.id as post_user_id, users.username, users.image AS "user_image", coalesce(likes.likes_count, 0) as likes, like_info.id_liked, like_info.names_liked, coalesce("comments".comments_count, 0) as comments_count, "comments".allcomments, COALESCE(reposts.reposts_count, 0) AS reposts
     FROM posts
     LEFT JOIN users
     ON users.id = posts.id_user
@@ -41,8 +41,18 @@ export async function getPosts() {
 	ON "comments".id_user = users.id) AS tabela
 	GROUP BY tabela.id_post) AS "comments"
 	ON "comments".id_post = posts.id
+
+    LEFT JOIN (SELECT posts_shares.id_post, COUNT(*) as reposts_count
+    FROM posts_shares
+    GROUP BY posts_shares.id_post) AS reposts
+    ON posts.id = reposts.id_post
+
     ORDER BY post_date DESC
     LIMIT 20;`)
+}
+
+export async function getReposts(){
+    return await db.query(`SELECT ps.*, users.username FROM posts_shares ps JOIN users ON users.id = ps.id_user;`)
 }
 
 export async function getPostById(id_post) {
