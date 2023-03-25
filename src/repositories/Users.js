@@ -5,5 +5,9 @@ export async function getUsersByUsername(username) {
 }
 
 export async function findUserById(id_user) {
-    return await db.query(`SELECT "username", "image" FROM "users" WHERE "id" = $1;`, [id_user]);
+    return await db.query(`SELECT "id", "username", "image" FROM "users" WHERE "id" = $1;`, [id_user]);
+}
+
+export async function getUserInfo(id) {
+    return await db.query('SELECT * FROM users WHERE id = $1;', [id]);
 }

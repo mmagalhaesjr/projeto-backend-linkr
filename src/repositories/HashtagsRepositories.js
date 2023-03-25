@@ -10,8 +10,13 @@ export async function filterHashtags() {
     `);
 }
 
-export async function findHashtags(hashtag){
-    return await db.query(
-        `SELECT * FROM posts WHERE post LIKE '%#${hashtag}%'`
-      );
+export async function findHashtags(hashtag) {
+  return await db.query(
+    `
+        SELECT "posts"."id", "post", COALESCE("updatedAt", "posts"."createdAt") AS "post_date", "username", "image" AS "user_image", "url" AS "post_url" 
+        FROM "posts" 
+        LEFT JOIN "users" 
+        ON "users"."id" = "posts"."id_user"
+        WHERE "post" LIKE '%#${hashtag}%'`
+  );
 }
