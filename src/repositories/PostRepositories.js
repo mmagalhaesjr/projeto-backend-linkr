@@ -35,7 +35,7 @@ export async function getPosts() {
     FROM (
 	SELECT id_post, json_build_object(
 	'id_comment', "comments".id, 'comment', comment, 'id_user', id_user, 'username', users.username, 'user_image', users.image
-) AS allcomments 
+) AS allcomments
 	FROM "comments"
 	LEFT JOIN users
 	ON "comments".id_user = users.id) AS tabela
@@ -66,4 +66,13 @@ export async function insertComment(comment, id_user, id_post) {
     return await db.query(`INSERT INTO comments(comment, id_user, id_post) VALUES ($1, $2, $3)`, [comment, id_user, id_post])
 }
 
+
+export async function countPosts(id_user){
+    return await db.query(`
+    SELECT count(p.post) AS num_posts
+    FROM posts p
+    LEFT JOIN follows f
+    ON f.id_followed_user = p.id_user AND f.id_followed_user = $1
+    GROUP BY num_posts`,[id_user])
+}
 
