@@ -1,4 +1,4 @@
-import { deletePostById, getAllPosts, getUserPostsById } from "../repositories/Posts.js";
+import { deletePostById, editPostById, getAllPosts, getUserPostsById } from "../repositories/Posts.js";
 
 async function getAllUsersPosts(req, res) {
     try {
@@ -28,4 +28,11 @@ async function removePost(req, res) {
     return res.status(200).send("post deleted successfully.");
 }
 
-export { getAllUsersPosts, getUserPosts, removePost };
+async function editPost(req, res) {
+    const { id } = req.params;
+    const { post } = req.body;
+    await editPostById(id, post);
+    return res.status(200).send("post edited successfully.");
+}
+
+export { editPost, getAllUsersPosts, getUserPosts, removePost };

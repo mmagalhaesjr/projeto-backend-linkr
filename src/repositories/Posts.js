@@ -15,3 +15,7 @@ export async function getPostFromUser(id_post, id_user) {
 export async function deletePostById(id_post) {
     return await db.query("DELETE FROM posts WHERE id = $1;", [id_post]);
 }
+
+export async function editPostById(id_post, post) {
+    return await db.query("UPDATE posts SET post = $1, \"updatedAt\" = NOW() WHERE id = $2;", [post, id_post]);
+}
