@@ -9,7 +9,13 @@ export async function findUserById(id_follower_user, id_followed_user) {
 }
 
 export async function getUserInfo(id) {
-    return await db.query('SELECT *, EXISTS(SELECT 1 FROM "follows" WHERE "id_follower_user" = $1) AS "isFollowingUsers" FROM users WHERE id = $1;', [id]);
+    return await db.query(`SELECT users.*, following.following_list, EXISTS(SELECT 1 FROM "follows" WHERE "id_follower_user" = $1) AS "isFollowingUsers" 
+    FROM users 
+    LEFT JOIN (SELECT follows.id_follower_user, json_agg(follows.id_followed_user) as following_list
+    FROM follows
+    GROUP BY follows.ID_FOLLOWER_USER) AS following
+    ON following.id_follower_user = users.id
+    WHERE users.id = $1`, [id]);
 }
 
 export async function verifyIsFollowingUser(id_follower_user, id_followed_user) {
