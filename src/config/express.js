@@ -8,7 +8,7 @@ import HashtagRouter from "../routes/HashtagRoutes.js";
 import SignRoutes from "../routes/SignRoutes.js";
 import UserRoutes from "../routes/Users.js";
 import RePostsRoutes from "../routes/RePosts.js";
-import PostsRoutes from "../routes/PostRoutes.js";
+import PostsRoutes from "../routes/Posts.js";
 
 
 const app = express();

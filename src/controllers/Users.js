@@ -1,18 +1,19 @@
 import { getUserAndUserPostsById } from "../repositories/Posts.js";
-import { getUsersByUsername, getUserInfo } from "../repositories/Users.js";
+import { getUsersByUsername, findUserById, getUserInfo } from "../repositories/Users.js";
 
-async function getUserAndUserPosts(req, res) {
+async function getUserById(req, res) {
     try {
         const { id } = req.params;
         if (!id || Number.isNaN(Number(id))) return res.status(401).send("invalid user id format");
-        const posts = await getUserAndUserPostsById(id);
-        return res.status(200).send(posts.rows);
-    } catch(_) {
+        const user = await findUserById(id);
+        if (user.rows.length === 0) return res.status(400).send("user not found");
+        else return res.status(200).send(user.rows[0]);
+    } catch (_) {
         return res.status(500).send("internal server error.");
     }
 }
 
-async function searchUsersByUsername() {
+async function searchUsersByUsername(req, res) {
     try {
         const { username } = req.body;
         if (!username || typeof username !== "string") return res.status(401).send("invalid username format");
@@ -35,4 +36,4 @@ async function getUserMe(req, res) {
     }
 }
 
-export { getUserAndUserPosts, searchUsersByUsername, getUserMe };
+export { getUserById, getUserMe, searchUsersByUsername };
