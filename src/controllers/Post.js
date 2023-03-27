@@ -115,7 +115,6 @@ export async function countPostsById(req,res){
     try {
         const {rows:result} = await countPosts(id_user)
         
-        console.log(result)
         res.status(200).send(result[0])
     } catch (error) {
         console.log(error)
