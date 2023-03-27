@@ -2,31 +2,27 @@ import {
   deletePostById,
   editPostById,
   getAllPosts,
-  getPostsByPage,
   getUserPostsById,
 } from "../repositories/Posts.js";
 
 async function getAllUsersPosts(req, res) {
-  try {
-    const posts = await getAllPosts();
-    return res.status(200).send(posts.rows);
-  } catch (_) {
-    console.log(_);
-    return res.status(500).send("internal server error.");
-  }
+    try {
+        const posts = await getAllPosts(Number(req.authentication.id_user));
+        return res.status(200).send(posts.rows);
+    } catch (_) {
+        return res.status(500).send("internal server error.");
+    }
 }
 
 async function getUserPosts(req, res) {
-  try {
-    const { id } = req.params;
-    if (!id || Number.isNaN(Number(id)))
-      return res.status(401).send("invalid user id format");
-    const posts = await getUserPostsById(id);
-    return res.status(200).send(posts.rows);
-  } catch (_) {
-    console.log(_);
-    return res.status(500).send("internal server error.");
-  }
+    try {
+        const { id } = req.params;
+        if (!id || Number.isNaN(Number(id))) return res.status(401).send("invalid user id format");
+        const posts = await getUserPostsById(id);
+        return res.status(200).send(posts.rows);
+    } catch(_) {
+        return res.status(500).send("internal server error.");
+    }
 }
 
 async function removePost(req, res) {
@@ -42,15 +38,4 @@ async function editPost(req, res) {
   return res.status(200).send("post edited successfully.");
 }
 
-async function getAllPostsByPage(req, res) {
-  const page = Number(req.query.page);
-  try {
-    const posts = await getPostsByPage(page);
-    return res.status(200).send(posts.rows);
-  } catch (_) {
-    console.log(_);
-    return res.status(500).send("internal server error.");
-  }
-}
-
-export { editPost, getAllUsersPosts, getUserPosts, removePost,getAllPostsByPage };
+export { editPost, getAllUsersPosts, getUserPosts, removePost };
