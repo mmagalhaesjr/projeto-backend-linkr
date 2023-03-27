@@ -5,7 +5,6 @@ async function getAllUsersPosts(req, res) {
         const posts = await getAllPosts();
         return res.status(200).send(posts.rows);
     } catch (_) {
-        console.log(_);
         return res.status(500).send("internal server error.");
     }
 }
@@ -17,7 +16,6 @@ async function getUserPosts(req, res) {
         const posts = await getUserPostsById(id);
         return res.status(200).send(posts.rows);
     } catch(_) {
-        console.log(_);
         return res.status(500).send("internal server error.");
     }
 }

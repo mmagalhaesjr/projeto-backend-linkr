@@ -1,7 +1,7 @@
 import { db } from "../config/database.js";
 
 export async function getUsersByUsername(username) {
-    return await db.query(`SELECT "id", "username", "image" FROM "users" WHERE "username" ILIKE $1;`, [`%${username}%`]);
+    return await db.query(`SELECT "users"."id", "username", "image", (CASE WHEN "follows"."id_followed_user" IS NULL THEN FALSE ELSE TRUE END) AS "isFollowing" FROM "users" LEFT JOIN "follows" ON "users"."id" = "follows"."id_followed_user" WHERE "username" ILIKE $1;`, [`%${username}%`]);
 }
 
 export async function findUserById(id_user) {
