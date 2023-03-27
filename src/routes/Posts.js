@@ -1,6 +1,6 @@
 import express from "express";
 
-import { editPost, getAllUsersPosts, getUserPosts, removePost } from "../controllers/Posts.js";
+import { editPost, getAllPostsByPage, getAllUsersPosts, getUserPosts, removePost } from "../controllers/Posts.js";
 
 import { isUserAuthenticated } from "../middlewares/Authentication.js";
 import { verifyIfUserIsOwnerOfPost } from "../middlewares/Posts.js";
@@ -40,4 +40,5 @@ router.post('/post/:id/like',validateToken, verifyIfPostExists, likePost);
 router.delete('/post/:id/dislike', validateToken, verifyIfPostExists, dislikePost);
 router.post('/comment/:id', validateSchema(commentSchema), validateToken, verifyIfPostExists, insertNewComment);
 router.get('/count-posts',validateToken,countPostsById);
+router.get('/posts/pages',validateToken,getAllPostsByPage)
 export default router;
