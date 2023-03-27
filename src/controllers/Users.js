@@ -5,7 +5,7 @@ async function getUserById(req, res) {
     try {
         const { id } = req.params;
         if (!id || Number.isNaN(Number(id))) return res.status(401).send("invalid user id format");
-        const user = await findUserById(id);
+        const user = await findUserById(Number(req.authentication.id_user), id);
         if (user.rows.length === 0) return res.status(400).send("user not found");
         else return res.status(200).send(user.rows[0]);
     } catch (_) {
@@ -17,7 +17,7 @@ async function searchUsersByUsername(req, res) {
     try {
         const { username } = req.body;
         if (!username || typeof username !== "string") return res.status(401).send("invalid username format");
-        const users = await getUsersByUsername(username);
+        const users = await getUsersByUsername(Number(req.authentication.id_user), username);
         return res.status(200).send(users.rows);
     } catch (_) {
         return res.status(500).send("internal server error.");

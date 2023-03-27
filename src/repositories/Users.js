@@ -1,11 +1,11 @@
 import { db } from "../config/database.js";
 
-export async function getUsersByUsername(username) {
-    return await db.query(`SELECT "users"."id", "username", "image", (CASE WHEN "follows"."id_followed_user" IS NULL THEN FALSE ELSE TRUE END) AS "isFollowing" FROM "users" LEFT JOIN "follows" ON "users"."id" = "follows"."id_followed_user" WHERE "username" ILIKE $1;`, [`%${username}%`]);
+export async function getUsersByUsername(id_user, username) {
+    return await db.query(`SELECT "users"."id", "username", "image", EXISTS(SELECT 1 FROM "follows" WHERE "id_followed_user" = "users"."id" AND "id_follower_user" = $1 AND "id_followed_user" != $1) AS "isFollowing" FROM "users" LEFT JOIN "follows" ON "users"."id" = "follows"."id_followed_user" AND "follows"."id_follower_user" = $1 WHERE "username" ILIKE $2 ORDER BY "isFollowing" DESC;`, [id_user, `%${username}%`]);
 }
 
-export async function findUserById(id_user) {
-    return await db.query(`SELECT "users"."id", "username", "image", (CASE WHEN "follows"."id_followed_user" IS NULL THEN FALSE ELSE TRUE END) AS "isFollowing" FROM "users" LEFT JOIN "follows" ON "users"."id" = "follows"."id_followed_user" WHERE "users"."id" = $1;`, [id_user]);
+export async function findUserById(id_follower_user, id_followed_user) {
+    return await db.query(`SELECT "users"."id", "username", "image", EXISTS(SELECT 1 FROM "follows" WHERE "id_followed_user" = "users"."id" AND "id_follower_user" = $1 AND "id_followed_user" != $1) AS "isFollowing" FROM "users" LEFT JOIN "follows" ON "users"."id" = "follows"."id_followed_user" AND "follows"."id_follower_user" = $1 WHERE "users"."id" = $2;`, [id_follower_user, id_followed_user]);
 }
 
 export async function getUserInfo(id) {
