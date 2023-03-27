@@ -15,7 +15,7 @@ import { insertNewComment } from '../controllers/Post.js';
 
 const router = express.Router();
 
-router.all("/posts", isUserAuthenticated, async (req, res) => {
+router.all("/posts", isUserAuthenticated, validateToken, async (req, res) => {
     if (req.method === "GET") return await getAllUsersPosts(req, res);
     return res.status(405).send("this method is not allowed here");
 });
