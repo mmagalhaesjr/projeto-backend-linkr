@@ -1,5 +1,5 @@
 import { getUserAndUserPostsById } from "../repositories/Posts.js";
-import { getUsersByUsername, findUserById, getUserInfo } from "../repositories/Users.js";
+import { getUsersByUsername, findUserById, getUserInfo, verifyIsFollowingUser, setFollowUser, setUnfollowUser } from "../repositories/Users.js";
 
 async function getUserById(req, res) {
     try {
@@ -36,4 +36,29 @@ async function getUserMe(req, res) {
     }
 }
 
-export { getUserById, getUserMe, searchUsersByUsername };
+async function followUser(req, res) {
+    const { id } = req.params;
+
+    if (Number.isNaN(Number(id))) return res.status(400).send("invalid user id");
+
+    if (Number(id) === Number(req.authentication.id_user)) return res.status(400).send("you cannot follow yourself");
+
+    const isFollowingResult = await verifyIsFollowingUser(Number(req.authentication.id_user), Number(id));
+    if(isFollowingResult.rows.length > 0) return res.status(200).send("you already following this user.");
+
+    await setFollowUser(Number(req.authentication.id_user), Number(id));
+    return res.status(200).send("follow user successfully.");
+}
+
+async function unfollowUser(req, res) {
+    const { id } = req.params;
+
+    if (Number.isNaN(Number(id))) return res.status(400).send("invalid user id");
+
+    if (Number(id) === Number(req.authentication.id_user)) return res.status(400).send("you cannot unfollow yourself");
+
+    await setUnfollowUser(Number(req.authentication.id_user), Number(id));
+    return res.status(200).send("unfollow user successfully.");
+}
+
+export { followUser, getUserById, getUserMe, searchUsersByUsername, unfollowUser };
