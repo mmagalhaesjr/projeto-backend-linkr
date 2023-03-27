@@ -1,4 +1,4 @@
-import { deletePostById, editPostById, getAllPosts, getUserPostsById, getReposts, getMyFollows } from "../repositories/Posts.js";
+import { deletePostById, editPostById, getAllPosts, getUserPostsById, getReposts, getMyFollows, deleteComments, deleteLikes, deleteReposts } from "../repositories/Posts.js";
 
 async function getAllUsersPosts(req, res) {
     const id = res.locals.id_user;
@@ -93,6 +93,11 @@ async function getUserPosts(req, res) {
 
 async function removePost(req, res) {
     const { id } = req.params;
+
+    await deleteLikes(id);
+    await deleteComments(id);
+    await deleteReposts(id);
+    
     await deletePostById(id);
     return res.status(200).send("post deleted successfully.");
 }

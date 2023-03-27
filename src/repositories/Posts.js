@@ -30,3 +30,13 @@ export async function getReposts(){
 export async function getMyFollows(id){
     return await db.query('SELECT f.id_followed_user FROM follows f WHERE id_follower_user = $1;', [id])
 }
+
+export async function deleteLikes(id){
+    return await db.query('DELETE FROM likes WHERE id_post = $1;', [id]);
+}
+export async function deleteComments(id){
+    return await db.query('DELETE FROM comments WHERE id_post = $1;', [id]);
+}
+export async function deleteReposts(id){
+    return await db.query('DELETE FROM posts_shares WHERE id_post = $1;', [id]);
+}
