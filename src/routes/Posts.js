@@ -8,7 +8,7 @@ import { verifyIfUserIsOwnerOfPost } from "../middlewares/Posts.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { postSchema } from '../schemas/postSchema.js';
 import { validateToken } from '../middlewares/validateToken.js';
-import { dislikePost, likePost, publishPost } from '../controllers/Post.js';
+import { countPostsById, dislikePost, likePost, publishPost } from '../controllers/Post.js';
 import { verifyIfPostExists } from '../middlewares/Post.js';
 import { commentSchema } from '../schemas/postSchema.js';
 import { insertNewComment } from '../controllers/Post.js';
@@ -38,6 +38,6 @@ router.all("/post/:id/update", isUserAuthenticated, verifyIfUserIsOwnerOfPost, a
 router.post('/post', validateSchema(postSchema), validateToken, publishPost);
 router.post('/post/:id/like',validateToken, verifyIfPostExists, likePost);
 router.delete('/post/:id/dislike', validateToken, verifyIfPostExists, dislikePost);
-router.post('/comment/:id', validateSchema(commentSchema), validateToken, verifyIfPostExists, insertNewComment)
-
+router.post('/comment/:id', validateSchema(commentSchema), validateToken, verifyIfPostExists, insertNewComment);
+router.get('/count-posts',validateToken,countPostsById);
 export default router;

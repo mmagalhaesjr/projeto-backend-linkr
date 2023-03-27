@@ -1,4 +1,4 @@
-import { deleteLikePost, insertComment, insertLikePost, insertPost } from '../repositories/PostRepositories.js';
+import { countPosts, deleteLikePost, insertComment, insertLikePost, insertPost } from '../repositories/PostRepositories.js';
 
 
 export async function publishPost(req, res) {
@@ -57,6 +57,19 @@ export async function insertNewComment(req, res) {
     } catch (error) {
         console.log(error);
         return res.status(500).send(error);
+    }
+}
+
+
+export async function countPostsById(req,res){
+    const id_user = res.locals.id_user
+    try {
+        const {rows:result} = await countPosts(id_user)
+        
+        res.status(200).send(result[0])
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error.message)
     }
 }
 
