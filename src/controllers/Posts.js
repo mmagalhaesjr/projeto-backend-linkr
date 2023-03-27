@@ -1,3 +1,4 @@
+
 import { deletePostById, editPostById, getAllPosts, getUserPostsById, getReposts, getMyFollows, deleteComments, deleteLikes, deleteReposts } from "../repositories/Posts.js";
 
 async function getAllUsersPosts(req, res) {
@@ -92,6 +93,7 @@ async function getUserPosts(req, res) {
 }
 
 async function removePost(req, res) {
+
     const { id } = req.params;
 
     await deleteLikes(id);
@@ -100,13 +102,14 @@ async function removePost(req, res) {
     
     await deletePostById(id);
     return res.status(200).send("post deleted successfully.");
+
 }
 
 async function editPost(req, res) {
-    const { id } = req.params;
-    const { post } = req.body;
-    await editPostById(id, post);
-    return res.status(200).send("post edited successfully.");
+  const { id } = req.params;
+  const { post } = req.body;
+  await editPostById(id, post);
+  return res.status(200).send("post edited successfully.");
 }
 
 export { editPost, getAllUsersPosts, getUserPosts, removePost };
