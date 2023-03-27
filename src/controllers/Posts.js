@@ -2,7 +2,7 @@ import { deletePostById, editPostById, getAllPosts, getUserPostsById } from "../
 
 async function getAllUsersPosts(req, res) {
     try {
-        const posts = await getAllPosts();
+        const posts = await getAllPosts(Number(req.authentication.id_user));
         return res.status(200).send(posts.rows);
     } catch (_) {
         return res.status(500).send("internal server error.");

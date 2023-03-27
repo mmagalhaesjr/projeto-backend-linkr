@@ -9,7 +9,7 @@ export async function findUserById(id_follower_user, id_followed_user) {
 }
 
 export async function getUserInfo(id) {
-    return await db.query('SELECT * FROM users WHERE id = $1;', [id]);
+    return await db.query('SELECT *, EXISTS(SELECT 1 FROM "follows" WHERE "id_follower_user" = $1) AS "isFollowingUsers" FROM users WHERE id = $1;', [id]);
 }
 
 export async function verifyIsFollowingUser(id_follower_user, id_followed_user) {
